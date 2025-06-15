@@ -11,8 +11,22 @@ constructor(){
       profession:"Software Engineer",
     },
     shows:true,
+    mountedTime:0,
   }
 }
+
+componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState((prevState) => ({
+        mountedTime: prevState.mountedTime + 1,
+      }));
+    }, 1000); // Update every second
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval); // Cleanup the interval
+  }
+
 toggleShow = () => {
     this.setState((prevState) => ({
       shows: !prevState.shows, // Toggle true/false
@@ -20,6 +34,7 @@ toggleShow = () => {
   };
 
   render (){
+    const { person, shows, mountedTime } = this.state;
     return (
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <button onClick={this.toggleShow}>
@@ -35,6 +50,7 @@ toggleShow = () => {
         <h3>{this.state.person.profession}</h3>
       </div>
        )}
+         <p>Time since component mounted: {mountedTime} seconds</p>
       </div>
     );
   }
